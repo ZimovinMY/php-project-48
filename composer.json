@@ -1,0 +1,21 @@
+{
+    "name": "hexlet/code",
+    "autoload": {
+        "files": [
+        ]
+    },
+    "bin": [
+        "bin/gendiff"
+    ],
+    "authors": [
+        {
+            "name": "ZimovinMY",
+            "email": "misch.zimowin2013@mail.ru"
+        }
+    ],
+    "description": "hexlet gendiff",
+    "license": "MIT",
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
