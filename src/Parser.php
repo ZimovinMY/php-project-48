@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code\Parser;
+namespace Difference\Parser;
 
 # Обработка входных данных
 function parse(string $filePath): array

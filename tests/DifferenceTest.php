@@ -1,10 +1,10 @@
 <?php
 
-namespace Hexlet\Code\DifferenceTest;
+namespace Difference\DifferenceTest;
 
 use PHPUnit\Framework\TestCase;
 
-use function Hexlet\Code\Difference\runDiff;
+use function Difference\Difference\runDiff;
 class DifferenceTest extends TestCase
 {
     public function testRunDifference(): void

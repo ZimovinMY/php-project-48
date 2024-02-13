@@ -1,9 +1,9 @@
 <?php
 
-namespace Hexlet\Code\Difference;
+namespace Difference\Difference;
 
-use function Hexlet\Code\Parser\parse;
-use function Hexlet\Code\Shaper\shape;
+use function Difference\Parser\parse;
+use function Difference\Shaper\shape;
 
 # Интерфейс запуска расчета разницы
 function runDiff(string $filePathFirst, string $filePathSecond, string $format = 'plain'): string
@@ -11,8 +11,7 @@ function runDiff(string $filePathFirst, string $filePathSecond, string $format =
     $fileContentFirst = parse($filePathFirst);
     $fileContentSecond = parse($filePathSecond);
     $difference = getDifference($fileContentFirst, $fileContentSecond);
-    $differenceOutput = shape($difference);
-    return $differenceOutput;
+    return shape($difference);
 }
 
 # Выполняет расчет разницы

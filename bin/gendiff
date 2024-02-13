@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-///namespace Hexlet\Code\Gendiff;
+///namespace Difference\Gendiff;
 
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
@@ -11,8 +11,9 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-use function Hexlet\Code\Difference\runDiff;
+use function Difference\Difference\runDiff;
 
+// справочная информация
 $doc = <<<DOC
 Generate diff
 
@@ -29,12 +30,12 @@ DOC;
 
 $args = Docopt::handle($doc, array('version'=>'Generate diff 1.0'));
 
-foreach ($args as $k=>$v)
-    echo $k.': '.json_encode($v).PHP_EOL;
+//foreach ($args as $k=>$v)
+//    echo $k.': '.json_encode($v).PHP_EOL;
 
-$filePathFirst = $args['<firstFile>'];
-$filePathSecond = $args['<secondFile>'];
-$format = $args['--format'];
+$filePathFirst = $args['<firstFile>']; // путь к 1 файлу
+$filePathSecond = $args['<secondFile>']; // путь ко 2 файлу
+$format = $args['--format']; // формат
 
 $difference = runDiff($filePathFirst, $filePathSecond, $format);
 print_r($difference);
