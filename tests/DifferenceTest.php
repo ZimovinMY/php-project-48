@@ -1,6 +1,6 @@
 <?php
 
-namespace Difference\DifferenceTest;
+namespace Tests\DifferenceTest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -13,5 +13,9 @@ class DifferenceTest extends TestCase
         $path2 = './tests/file2.json';
         $expected = file_get_contents("./tests/fixtures/expected.txt");
         $this->assertEquals($expected, runDiff($path1, $path2));
+    }
+    public function testOk(): void
+    {
+        $this->assertEquals('OK', 'OK');
     }
 }
