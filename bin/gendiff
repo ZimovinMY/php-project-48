@@ -30,13 +30,9 @@ DOC;
 
 $args = Docopt::handle($doc, array('version'=>'Generate diff 1.0'));
 
-//foreach ($args as $k=>$v)
-//    echo $k.': '.json_encode($v).PHP_EOL;
-
 $filePathFirst = $args['<firstFile>']; // путь к 1 файлу
 $filePathSecond = $args['<secondFile>']; // путь ко 2 файлу
 $format = $args['--format']; // формат
 
 $difference = runDiff($filePathFirst, $filePathSecond, $format);
-print_r($difference);
-print_r("\n");
+print_r($difference . PHP_EOL);

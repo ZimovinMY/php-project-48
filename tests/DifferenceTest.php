@@ -11,7 +11,7 @@ class DifferenceTest extends TestCase
     {
         $path1 = './tests/file1.json';
         $path2 = './tests/file2.json';
-        $expected = file_get_contents('./tests/expected.txt');
+        $expected = file_get_contents("./tests/fixtures/expected.txt");
         $this->assertEquals($expected, runDiff($path1, $path2));
     }
 }
