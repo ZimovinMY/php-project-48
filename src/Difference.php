@@ -5,7 +5,7 @@ namespace Difference\Difference;
 use function Difference\Parser\parse;
 use function Difference\Shaper\shape;
 
-# Интерфейс запуска расчета разницы
+// Интерфейс запуска расчета разницы
 function runDiff(string $filePathFirst, string $filePathSecond, string $format = 'plain'): string
 {
     $fileContentFirst = parse($filePathFirst);
@@ -14,20 +14,41 @@ function runDiff(string $filePathFirst, string $filePathSecond, string $format =
     return shape($difference);
 }
 
-# Выполняет расчет разницы
+// Выполняет расчет разницы
 function getDifference(array $fileContentFirst, array $fileContentSecond): array
 {
-    # Объединенный массив, содержащий все ключи
+//    $mergedContent = array_merge($fileContentFirst, $fileContentSecond);
+//    ksort($mergedContent);
+//    return array_reduce(array_keys($mergedContent), function ($acc, $key)
+//    use ($fileContentFirst, $fileContentSecond, $mergedContent) {
+//        $value = $mergedContent[$key];
+//        if (array_key_exists($key, $fileContentFirst)) {
+//            if ($fileContentFirst[$key] === $mergedContent[$key]) {
+//                $acc[] = ['symbol' => ' ', 'key' => $key, 'value' => $value];
+//                /// еще один if нужен со 2 массивом
+//            } else {
+//                $acc[] = ['symbol' => '-', 'key' => $key, 'value' => $fileContentFirst[$key]];
+//                $acc[] = ['symbol' => '+', 'key' => $key, 'value' => $fileContentSecond[$key]];
+//            }
+//        } else {
+//            $acc[] = ['symbol' => '+', 'key' => $key, 'value' => $fileContentSecond[$key]];
+//        }
+//        return $acc;
+//    }, []);
+//}
+
+
+    // Объединенный массив, содержащий все ключи
     $mergedContent = array_merge($fileContentFirst, $fileContentSecond);
-    # Сортировка по ключам
+    // Сортировка по ключам
     ksort($mergedContent);
-    # Возвращается массив "разниц" двух массивов
+    // Возвращается массив "разниц" двух массивов
     return array_reduce(array_keys($mergedContent), function ($acc, $key)
  use ($fileContentFirst, $fileContentSecond, $mergedContent) {
         $value = $mergedContent[$key];
-        # Если ключ имеется в обоих массивах
+        // Если ключ имеется в обоих массивах
         if (array_key_exists($key, $fileContentFirst) && array_key_exists($key, $fileContentSecond)) {
-            # Если значения в этих массивах по данному ключу одинаковы
+            // Если значения в этих массивах по данному ключу одинаковы
             if ($fileContentFirst[$key] === $fileContentSecond[$key]) {
                 $acc[] = ['symbol' => ' ', 'key' => $key, 'value' => $value];
             } else {

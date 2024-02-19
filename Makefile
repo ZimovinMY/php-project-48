@@ -5,7 +5,7 @@ dump:
 validate:
 	composer validate
 gd:
-	./bin/gendiff ./tests/file1.json ./tests/file2.json
+	./bin/gendiff ./tests/fixtures/file1.json ./tests/fixtures/file2.json
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin
 	composer exec --verbose phpstan -- --level=5 analyse src tests bin
