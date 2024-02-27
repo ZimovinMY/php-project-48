@@ -2,8 +2,8 @@
 
 namespace Difference\Parser;
 
+use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
-use Exception;
 // Обработка входных данных
 function parse(string $filePath): array
 {
@@ -15,6 +15,6 @@ function parse(string $filePath): array
         $fileContent = file_get_contents($filePath);
         return json_decode($fileContent, true);
     } else {
-        throw new Exception('Unknown extension!');
+        throw new RuntimeException('Unknown extension!');
     }
 }

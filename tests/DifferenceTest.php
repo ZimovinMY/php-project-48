@@ -1,39 +1,41 @@
 <?php
 
-namespace Tests\DifferenceTest;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Exception;
 
+use RuntimeException;
 use function Difference\Difference\runDiff;
 class DifferenceTest extends TestCase
 {
-    public function testRunDifference(): void
+    private string $path = __DIR__ . "/fixtures/";
+    private function getFilePath($name): string
     {
-        $path1 = __DIR__ . '/fixtures/plain1.json';
-        $path2 = __DIR__ . '/fixtures/plain2.json';
-        $expected = file_get_contents(__DIR__ . "/fixtures/Plain-expected.txt");
-        $this->assertEquals($expected, runDiff($path1, $path2));
-
-        $path1 = __DIR__ . '/fixtures/plain1.yaml';
-        $path2 = __DIR__ . '/fixtures/plain2.yaml';
-        $expected = file_get_contents(__DIR__ . "/fixtures/Plain-expected.txt");
-        $this->assertEquals($expected, runDiff($path1, $path2));
-
-        $path1 = __DIR__ . '/fixtures/nested1.json';
-        $path2 = __DIR__ . '/fixtures/nested2.json';
-        $expected = file_get_contents(__DIR__ . "/fixtures/Nested-expected.txt");
-        $this->assertEquals($expected, runDiff($path1, $path2));
-
-        $path1 = __DIR__ . '/fixtures/nested1.yaml';
-        $path2 = __DIR__ . '/fixtures/nested2.yaml';
-        $expected = file_get_contents(__DIR__ . "/fixtures/Nested-expected.txt");
-        $this->assertEquals($expected, runDiff($path1, $path2));
-
-        $path1 = __DIR__ . '/fixtures/file1.jn';
-        $path2 = __DIR__ . '/fixtures/file2.jsn';
-        $this->expectException(Exception::class);
+        return $this->path . $name;
+    }
+    /**
+     * @dataProvider RunDifferenceProvider
+     */
+    public function testRunDifference($pathFirst, $pathSecond, $expected): void
+    {
+        $this->assertStringEqualsFile(
+            $this->getFilePath($expected),
+            runDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond))
+        );
+    }
+    public static function RunDifferenceProvider(): array
+    {
+        return [
+            ['plain1.json', 'plain2.json', 'Plain-expected.txt'],
+            ['plain1.yaml', 'plain2.yaml', 'Plain-expected.txt'],
+            ['nested1.json', 'nested2.json', 'Nested-expected.txt'],
+            ['nested1.json', 'nested2.json', 'Nested-expected.txt'],
+        ];
+    }
+    public function testRunDifferenceException()
+    {
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unknown extension!');
-        runDiff($path1, $path2);
+        runDiff($this->getFilePath('plain1.jsn'), $this->getFilePath('plain2.jn'));
     }
 }
