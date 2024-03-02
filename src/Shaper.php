@@ -14,68 +14,85 @@ function shape(array $difference, string $format): string
 function getStylish(array $difference): string
 {
     $stylishDiff = getStylishDiff($difference);
-    ////
-//    print_r('$stylishDiff');
-//    print_r($stylishDiff);
-//    print_r('$stylishDiff');
-    ////
     $resultString = implode("\n", $stylishDiff);
-    return "{\n{$resultString}\n}";
+    return "{\n$resultString\n}";
 }
-function convertToNormalString(mixed $value): string
+function getStylishDiff(array $difference, int $level = 0): array
 {
-    // Генерируем строковое представление
-    $stringValue = var_export($value, true);
-    // Удаление кавычек вокруг значения
-    return trim($stringValue, "'");
-}
+    $spaces = getSpaces($level);
+    $nextLevel = $level + 1;
 
-
-function getStylishDiff(array $difference)
-{
-    $output = "";
-    return array_map(function($item) use (&$output) {
+    return array_map(function($item) use ($spaces, $nextLevel) {
+        $output = '';
         switch ($item['status']) {
+            case 'node':
+                $node = getStylishDiff($item['value'], $nextLevel);
+                $stringNode = implode("\n", $node);
+                $output = "$spaces    {$item['key']}: {\n$stringNode\n$spaces    }";
+                break;
             case 'added':
-                $value = convertToNormalString($item['value']);
-                $output = "+ {$item['key']}: $value ";
+                $stringValue = getStringValue($item['value'], $nextLevel);
+                $output = "$spaces  + {$item['key']}: $stringValue";
                 break;
             case 'deleted':
-                $value = convertToNormalString($item['value']);
-                $output = "- {$item['key']}: $value ";
+                $stringValue = getStringValue($item['value'], $nextLevel);
+                $output = "$spaces  - {$item['key']}: $stringValue";
                 break;
             case 'unchanged':
-                $value = convertToNormalString($item['value']);
-                $output = "  {$item['key']}: $value ";
+                $stringValue = getStringValue($item['value'], $nextLevel);
+                $output = "$spaces    {$item['key']}: $stringValue";
                 break;
             case 'changed':
-                $output = 'getStylishDiff()';
+                $stringValueBefore = getStringValue($item['valueBefore'], $nextLevel);
+                $stringValueAfter = getStringValue($item['valueAfter'], $nextLevel);
+                ////
+                if (!$stringValueBefore) {
+                    $output = "$spaces  - {$item['key']}:$stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
+                    break;
+                }
+                if (!$stringValueAfter) {
+                    $output = "$spaces  - {$item['key']}: $stringValueBefore\n$spaces  + {$item['key']}:$stringValueAfter";
+                    break;
+                }
+                /////
+                $output = "$spaces  - {$item['key']}: $stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
                 break;
         }
         return $output;
     }, $difference);
 }
+function getSpaces(int $level): string
+{
+    return str_repeat('    ', $level);
+}
+function getStringValue(mixed $value, int $level): string
+{
+    if (is_null($value)) {
+        return 'null';
+    }
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
+    }
+    if (is_array($value)) {
+        $result = convertArrayToString($value, $level);
+        $spaces = getSpaces($level);
+        return "{{$result}\n$spaces}";
+    }
+    return "$value";
+}
+function convertArrayToString(array $value, int $level): string
+{
+    $keys = array_keys($value);
+    $nextLevel = $level + 1;
 
+    $callback = function ($key) use ($value, $nextLevel) {
+        $newValue = getStringValue($value[$key], $nextLevel);
+        $spaces = getSpaces($nextLevel);
+        if ($newValue === "11111") {
+            return "\n$spaces$key:";
+        }
+        return "\n$spaces$key: $newValue";
+    };
 
-
-
-// $spaces = 2, $spacesIncr = 4
-
-//    $outputString = "{\n";
-//    array_map(function ($item) use (&$outputString, $spaces, $spacesIncr) {
-//        if (isset($item['children'])) {
-//            $outputString .= str_repeat(" ", $spaces) . "{$item['symbol']} {$item['key']}: "
-//                . getStylish($item['children'], $spaces + $spacesIncr);
-//        } else {
-//            // NULL -> null
-//            $value = ($item['value'] === null) ? convertToNormalString('null') : convertToNormalString($item['value']);
-//            if (!$value) {
-//                $outputString .= str_repeat(" ", $spaces) . "{$item['symbol']} {$item['key']}:\n";
-//            } else {
-//                // Формирование результирующей строки
-//                $outputString .= str_repeat(" ", $spaces) . "{$item['symbol']} {$item['key']}: $value\n";
-//            }
-//        }
-//    }, $difference);
-//    $outputString .= str_repeat(" ", $spaces - 2) . "}\n";
-//    return $outputString;
+    return implode('', array_map($callback, $keys));
+}

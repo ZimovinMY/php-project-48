@@ -34,7 +34,11 @@ function getDifference(array $fileContentFirst, array $fileContentSecond): array
             ];
         }
         if (is_array($fileContentFirst[$key]) && is_array($fileContentSecond[$key])) {
-            getDifference($fileContentFirst[$key], $fileContentSecond[$key]);
+            return [
+                'status' => 'node',
+                'key' => $key,
+                'value' => getDifference($fileContentFirst[$key], $fileContentSecond[$key])
+            ];
         }
         if ($fileContentFirst[$key] === $fileContentSecond[$key]) {
             return [
