@@ -17,34 +17,34 @@ function getStylish(array $difference): string
     $resultString = implode("\n", $stylishDiff);
     return "{\n$resultString\n}";
 }
-function getStylishDiff(array $difference, int $level = 0): array
+function getStylishDiff(array $difference, int $depth = 0): array
 {
-    $spaces = getSpaces($level);
-    $nextLevel = $level + 1;
+    $spaces = str_repeat('    ', $depth);
+    $nextDepth = $depth + 1;
 
-    return array_map(function($item) use ($spaces, $nextLevel) {
+    return array_map(function($item) use ($spaces, $nextDepth) {
         $output = '';
         switch ($item['status']) {
             case 'node':
-                $node = getStylishDiff($item['value'], $nextLevel);
+                $node = getStylishDiff($item['value'], $nextDepth);
                 $stringNode = implode("\n", $node);
                 $output = "$spaces    {$item['key']}: {\n$stringNode\n$spaces    }";
                 break;
             case 'added':
-                $stringValue = getStringValue($item['value'], $nextLevel);
+                $stringValue = getStringValue($item['value'], $nextDepth);
                 $output = "$spaces  + {$item['key']}: $stringValue";
                 break;
             case 'deleted':
-                $stringValue = getStringValue($item['value'], $nextLevel);
+                $stringValue = getStringValue($item['value'], $nextDepth);
                 $output = "$spaces  - {$item['key']}: $stringValue";
                 break;
             case 'unchanged':
-                $stringValue = getStringValue($item['value'], $nextLevel);
+                $stringValue = getStringValue($item['value'], $nextDepth);
                 $output = "$spaces    {$item['key']}: $stringValue";
                 break;
             case 'changed':
-                $stringValueBefore = getStringValue($item['valueBefore'], $nextLevel);
-                $stringValueAfter = getStringValue($item['valueAfter'], $nextLevel);
+                $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
+                $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
                 ////
                 if (!$stringValueBefore) {
                     $output = "$spaces  - {$item['key']}:$stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
@@ -61,11 +61,7 @@ function getStylishDiff(array $difference, int $level = 0): array
         return $output;
     }, $difference);
 }
-function getSpaces(int $level): string
-{
-    return str_repeat('    ', $level);
-}
-function getStringValue(mixed $value, int $level): string
+function getStringValue(mixed $value, int $depth): string
 {
     if (is_null($value)) {
         return 'null';
@@ -74,23 +70,20 @@ function getStringValue(mixed $value, int $level): string
         return $value ? 'true' : 'false';
     }
     if (is_array($value)) {
-        $result = convertArrayToString($value, $level);
-        $spaces = getSpaces($level);
+        $result = convertArrayToString($value, $depth);
+        $spaces = str_repeat('    ', $depth);
         return "{{$result}\n$spaces}";
     }
     return "$value";
 }
-function convertArrayToString(array $value, int $level): string
+function convertArrayToString(array $value, int $depth): string
 {
     $keys = array_keys($value);
-    $nextLevel = $level + 1;
+    $nextDepth = $depth + 1;
 
-    $callback = function ($key) use ($value, $nextLevel) {
-        $newValue = getStringValue($value[$key], $nextLevel);
-        $spaces = getSpaces($nextLevel);
-        if ($newValue === "11111") {
-            return "\n$spaces$key:";
-        }
+    $callback = function ($key) use ($value, $nextDepth) {
+        $newValue = getStringValue($value[$key], $nextDepth);
+        $spaces = str_repeat('    ', $nextDepth);
         return "\n$spaces$key: $newValue";
     };
 
