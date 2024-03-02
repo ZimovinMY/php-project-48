@@ -11,68 +11,58 @@ function runDiff(string $filePathFirst, string $filePathSecond, string $format =
     $fileContentFirst = parse($filePathFirst);
     $fileContentSecond = parse($filePathSecond);
     $difference = getDifference($fileContentFirst, $fileContentSecond);
-    return substr(shape($difference, $format), 0, -1);
-}
+    return shape($difference, $format);
 
+}
 // Выполняет расчет разницы
 function getDifference(array $fileContentFirst, array $fileContentSecond): array
 {
-    // Объединенный массив, содержащий все ключи
-    $mergedContent = array_merge($fileContentFirst, $fileContentSecond);
-    // Сортировка по ключам
-    ksort($mergedContent);
-    return array_reduce(array_keys($mergedContent), function ($acc, $key) use ($fileContentFirst, $fileContentSecond) {
-        // Ключ не найден в 1 массиве
+    $sortedUnionKeys = getSortedUnionKeys($fileContentFirst, $fileContentSecond);
+    return array_map(function ($key) use ($fileContentFirst, $fileContentSecond) {
         if (!array_key_exists($key, $fileContentFirst)) {
-            // Если значение 2-го массива является массивом
-            if (is_array($fileContentSecond[$key])) {
-                // В children заносится массив в виде выбранной структуры
-                $acc[] = ['symbol' => '+', 'key' => $key, 'children' => getDifference($fileContentSecond[$key], $fileContentSecond[$key])];
-            } else {
-                $acc[] = ['symbol' => '+', 'key' => $key, 'value' => $fileContentSecond[$key]];
-            }
-            return $acc;
+            return [
+                'status' => 'added',
+                'key' => $key,
+                'value' => $fileContentSecond[$key]
+            ];
         }
-        // Ключ не найден во 2 массиве
         if (!array_key_exists($key, $fileContentSecond)) {
-            // Если значение 1-го массива является массивом
-            if (is_array($fileContentFirst[$key])) {
-                // В children заносится массив в виде выбранной структуры
-                $acc[] = ['symbol' => '-', 'key' => $key, 'children' => getDifference($fileContentFirst[$key], $fileContentFirst[$key])];
-            } else {
-                $acc[] = ['symbol' => '-', 'key' => $key, 'value' => $fileContentFirst[$key]];
-            }
-            return $acc;
+            return [
+                'status' => 'deleted',
+                'key' => $key,
+                'value' => $fileContentFirst[$key]
+            ];
         }
-        // Если значение в обоих массивах является массивом
         if (is_array($fileContentFirst[$key]) && is_array($fileContentSecond[$key])) {
-            $acc[] = ['symbol' => ' ', 'key' => $key, 'children' => getDifference($fileContentFirst[$key], $fileContentSecond[$key])];
-            return $acc;
+            getDifference($fileContentFirst[$key], $fileContentSecond[$key]);
         }
-        // Если значение в обоих массивах обинаково
         if ($fileContentFirst[$key] === $fileContentSecond[$key]) {
-            // Если значение - массив, приводим его к выбранной структуре
-            if (is_array($fileContentFirst[$key]) || is_array($fileContentSecond[$key])) {
-                $acc[] = ['symbol' => ' ', 'key' => $key, 'children' => getDifference($fileContentFirst[$key], $fileContentSecond[$key])];
-            } else {
-                $acc[] = ['symbol' => ' ', 'key' => $key, 'value' => $fileContentFirst[$key]];
-            }
-        } else {
-            // Если значение в обоих массивах разное
-            // Если значение в первом массиве - массив
-            if (is_array($fileContentFirst[$key]) && !is_array($fileContentSecond[$key])) {
-                $acc[] = ['symbol' => '-', 'key' => $key, 'children' => getDifference($fileContentFirst[$key], $fileContentFirst[$key])];
-                $acc[] = ['symbol' => '+', 'key' => $key, 'value' => $fileContentSecond[$key]];
-                return $acc;
-            }
-            $acc[] = ['symbol' => '-', 'key' => $key, 'value' => $fileContentFirst[$key]];
-            // Если значение во втором массиве - массив
-            if (!is_array($fileContentFirst[$key]) && is_array($fileContentSecond[$key])) {
-                $acc[] = ['symbol' => '+', 'key' => $key, 'children' => getDifference($fileContentSecond[$key], $fileContentSecond[$key])];
-                return $acc;
-            }
-            $acc[] = ['symbol' => '+', 'key' => $key, 'value' => $fileContentSecond[$key]];
+            return [
+                'status' => 'unchanged',
+                'key' => $key,
+                'value' => $fileContentFirst[$key]
+            ];
         }
-        return $acc;
-    }, []);
+        return [
+            'status' => 'changed',
+            'key' => $key,
+            'valueBefore' => $fileContentFirst[$key],
+            'valueAfter' => $fileContentSecond[$key]
+        ];
+    }, $sortedUnionKeys);
+}
+
+// Создает отсортированный массив уникальных ключей двух массивов
+function getSortedUnionKeys(array $firstArray, $secondArray): array
+{
+    // Получем уникальные ключи двух массивов
+    $mergedKeys = array_unique(
+        array_merge(
+            array_keys($firstArray),
+            array_keys($secondArray)
+        )
+    );
+    // Сортировка ключей
+    sort($mergedKeys);
+    return $mergedKeys;
 }
