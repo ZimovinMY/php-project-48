@@ -3,8 +3,8 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-
 use RuntimeException;
+
 use function Difference\Difference\runDiff;
 class DifferenceTest extends TestCase
 {
@@ -16,26 +16,31 @@ class DifferenceTest extends TestCase
     /**
      * @dataProvider RunDifferenceProvider
      */
-    public function testRunDifference($pathFirst, $pathSecond, $expected): void
+    public function testRunDifference($pathFirst, $pathSecond, $format, $expected): void
     {
         $this->assertStringEqualsFile(
             $this->getFilePath($expected),
-            runDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond))
+            runDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond), $format)
         );
     }
     public static function RunDifferenceProvider(): array
     {
         return [
-            ['plain1.json', 'plain2.json', 'Plain-expected.txt'],
-            ['plain1.yaml', 'plain2.yaml', 'Plain-expected.txt'],
-            ['nested1.json', 'nested2.json', 'Nested-expected.txt'],
-            ['nested1.json', 'nested2.json', 'Nested-expected.txt'],
+            ['file1.json', 'file2.json', 'stylish', 'StylishFormat-expected.txt'],
+            ['file1.yaml', 'file2.yaml', 'stylish', 'StylishFormat-expected.txt'],
+            ['file1.json', 'file2.yaml', 'stylish', 'StylishFormat-expected.txt'],
+            ['file1.json', 'file2.json', 'plain', 'PlainFormat-expected.txt'],
+            ['file1.yaml', 'file2.yaml', 'plain', 'PlainFormat-expected.txt'],
+            ['file1.yaml', 'file2.json', 'plain', 'PlainFormat-expected.txt'],
+            ['file1.json', 'file2.json', 'json', 'JSONFormat-expected.txt'],
+            ['file1.yaml', 'file2.yaml', 'json', 'JSONFormat-expected.txt'],
+            ['file1.yaml', 'file2.json', 'json', 'JSONFormat-expected.txt'],
         ];
     }
     public function testRunDifferenceException()
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unknown extension!');
-        runDiff($this->getFilePath('plain1.jsn'), $this->getFilePath('plain2.jn'));
+        runDiff($this->getFilePath('file1.jsn'), $this->getFilePath('file2.jn'));
     }
 }

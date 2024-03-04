@@ -1,44 +1,172 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1708098525">
-  <project timestamp="1708098525">
+<coverage generated="1709585124">
+  <project timestamp="1709585124">
     <file name="/home/dexter/php-project-48/src/Difference.php">
-      <line num="11" type="stmt" count="1"/>
-      <line num="12" type="stmt" count="1"/>
-      <line num="13" type="stmt" count="1"/>
-      <line num="14" type="stmt" count="1"/>
-      <line num="21" type="stmt" count="1"/>
-      <line num="23" type="stmt" count="1"/>
-      <line num="25" type="stmt" count="1"/>
-      <line num="26" type="stmt" count="1"/>
-      <line num="27" type="stmt" count="1"/>
-      <line num="29" type="stmt" count="1"/>
-      <line num="31" type="stmt" count="1"/>
-      <line num="32" type="stmt" count="1"/>
-      <line num="34" type="stmt" count="1"/>
-      <line num="35" type="stmt" count="1"/>
-      <line num="37" type="stmt" count="1"/>
-      <line num="38" type="stmt" count="1"/>
-      <line num="40" type="stmt" count="1"/>
-      <line num="42" type="stmt" count="1"/>
-      <line num="43" type="stmt" count="1"/>
-      <metrics loc="45" ncloc="36" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="19" coveredelements="19"/>
+      <line num="11" type="stmt" count="10"/>
+      <line num="12" type="stmt" count="9"/>
+      <line num="13" type="stmt" count="9"/>
+      <line num="14" type="stmt" count="9"/>
+      <line num="20" type="stmt" count="9"/>
+      <line num="21" type="stmt" count="9"/>
+      <line num="22" type="stmt" count="9"/>
+      <line num="23" type="stmt" count="9"/>
+      <line num="24" type="stmt" count="9"/>
+      <line num="25" type="stmt" count="9"/>
+      <line num="26" type="stmt" count="9"/>
+      <line num="27" type="stmt" count="9"/>
+      <line num="29" type="stmt" count="9"/>
+      <line num="30" type="stmt" count="9"/>
+      <line num="31" type="stmt" count="9"/>
+      <line num="32" type="stmt" count="9"/>
+      <line num="33" type="stmt" count="9"/>
+      <line num="34" type="stmt" count="9"/>
+      <line num="36" type="stmt" count="9"/>
+      <line num="37" type="stmt" count="9"/>
+      <line num="38" type="stmt" count="9"/>
+      <line num="39" type="stmt" count="9"/>
+      <line num="40" type="stmt" count="9"/>
+      <line num="41" type="stmt" count="9"/>
+      <line num="43" type="stmt" count="9"/>
+      <line num="44" type="stmt" count="9"/>
+      <line num="45" type="stmt" count="9"/>
+      <line num="46" type="stmt" count="9"/>
+      <line num="47" type="stmt" count="9"/>
+      <line num="48" type="stmt" count="9"/>
+      <line num="50" type="stmt" count="9"/>
+      <line num="51" type="stmt" count="9"/>
+      <line num="52" type="stmt" count="9"/>
+      <line num="53" type="stmt" count="9"/>
+      <line num="54" type="stmt" count="9"/>
+      <line num="55" type="stmt" count="9"/>
+      <line num="56" type="stmt" count="9"/>
+      <line num="63" type="stmt" count="9"/>
+      <line num="64" type="stmt" count="9"/>
+      <line num="65" type="stmt" count="9"/>
+      <line num="66" type="stmt" count="9"/>
+      <line num="67" type="stmt" count="9"/>
+      <line num="68" type="stmt" count="9"/>
+      <line num="70" type="stmt" count="9"/>
+      <line num="71" type="stmt" count="9"/>
+      <metrics loc="72" ncloc="67" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="45" elements="45" coveredelements="45"/>
+    </file>
+    <file name="/home/dexter/php-project-48/src/Formatters.php">
+      <line num="10" type="stmt" count="9"/>
+      <line num="11" type="stmt" count="9"/>
+      <line num="12" type="stmt" count="9"/>
+      <line num="13" type="stmt" count="9"/>
+      <line num="14" type="stmt" count="9"/>
+      <metrics loc="15" ncloc="15" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="5" coveredelements="5"/>
+    </file>
+    <file name="/home/dexter/php-project-48/src/Formatters/JSON.php">
+      <line num="7" type="stmt" count="3"/>
+      <metrics loc="8" ncloc="8" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="1" coveredelements="1"/>
+    </file>
+    <file name="/home/dexter/php-project-48/src/Formatters/Plain.php">
+      <line num="7" type="stmt" count="3"/>
+      <line num="8" type="stmt" count="3"/>
+      <line num="12" type="stmt" count="3"/>
+      <line num="13" type="stmt" count="3"/>
+      <line num="14" type="stmt" count="3"/>
+      <line num="15" type="stmt" count="3"/>
+      <line num="17" type="stmt" count="3"/>
+      <line num="18" type="stmt" count="3"/>
+      <line num="19" type="stmt" count="3"/>
+      <line num="20" type="stmt" count="3"/>
+      <line num="21" type="stmt" count="3"/>
+      <line num="22" type="stmt" count="3"/>
+      <line num="23" type="stmt" count="3"/>
+      <line num="24" type="stmt" count="3"/>
+      <line num="25" type="stmt" count="3"/>
+      <line num="26" type="stmt" count="3"/>
+      <line num="27" type="stmt" count="3"/>
+      <line num="28" type="stmt" count="3"/>
+      <line num="29" type="stmt" count="3"/>
+      <line num="30" type="stmt" count="3"/>
+      <line num="31" type="stmt" count="3"/>
+      <line num="32" type="stmt" count="3"/>
+      <line num="33" type="stmt" count="3"/>
+      <line num="35" type="stmt" count="3"/>
+      <line num="36" type="stmt" count="3"/>
+      <line num="40" type="stmt" count="3"/>
+      <line num="41" type="stmt" count="3"/>
+      <line num="43" type="stmt" count="3"/>
+      <line num="44" type="stmt" count="3"/>
+      <line num="46" type="stmt" count="3"/>
+      <line num="47" type="stmt" count="3"/>
+      <line num="49" type="stmt" count="3"/>
+      <metrics loc="50" ncloc="49" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="32" elements="32" coveredelements="32"/>
+    </file>
+    <file name="/home/dexter/php-project-48/src/Formatters/Stylish.php">
+      <line num="7" type="stmt" count="3"/>
+      <line num="8" type="stmt" count="3"/>
+      <line num="9" type="stmt" count="3"/>
+      <line num="13" type="stmt" count="3"/>
+      <line num="14" type="stmt" count="3"/>
+      <line num="16" type="stmt" count="3"/>
+      <line num="17" type="stmt" count="3"/>
+      <line num="18" type="stmt" count="3"/>
+      <line num="19" type="stmt" count="3"/>
+      <line num="20" type="stmt" count="3"/>
+      <line num="21" type="stmt" count="3"/>
+      <line num="22" type="stmt" count="3"/>
+      <line num="23" type="stmt" count="3"/>
+      <line num="24" type="stmt" count="3"/>
+      <line num="25" type="stmt" count="3"/>
+      <line num="26" type="stmt" count="3"/>
+      <line num="27" type="stmt" count="3"/>
+      <line num="28" type="stmt" count="3"/>
+      <line num="29" type="stmt" count="3"/>
+      <line num="30" type="stmt" count="3"/>
+      <line num="31" type="stmt" count="3"/>
+      <line num="32" type="stmt" count="3"/>
+      <line num="33" type="stmt" count="3"/>
+      <line num="34" type="stmt" count="3"/>
+      <line num="35" type="stmt" count="3"/>
+      <line num="36" type="stmt" count="3"/>
+      <line num="37" type="stmt" count="3"/>
+      <line num="38" type="stmt" count="3"/>
+      <line num="40" type="stmt" count="3"/>
+      <line num="41" type="stmt" count="3"/>
+      <line num="42" type="stmt" count="3"/>
+      <line num="44" type="stmt" count="3"/>
+      <line num="45" type="stmt" count="0"/>
+      <line num="46" type="stmt" count="0"/>
+      <line num="49" type="stmt" count="3"/>
+      <line num="50" type="stmt" count="3"/>
+      <line num="52" type="stmt" count="3"/>
+      <line num="53" type="stmt" count="3"/>
+      <line num="57" type="stmt" count="3"/>
+      <line num="58" type="stmt" count="3"/>
+      <line num="60" type="stmt" count="3"/>
+      <line num="61" type="stmt" count="3"/>
+      <line num="63" type="stmt" count="3"/>
+      <line num="64" type="stmt" count="3"/>
+      <line num="65" type="stmt" count="3"/>
+      <line num="66" type="stmt" count="3"/>
+      <line num="68" type="stmt" count="3"/>
+      <line num="72" type="stmt" count="3"/>
+      <line num="73" type="stmt" count="3"/>
+      <line num="75" type="stmt" count="3"/>
+      <line num="76" type="stmt" count="3"/>
+      <line num="77" type="stmt" count="3"/>
+      <line num="78" type="stmt" count="3"/>
+      <line num="79" type="stmt" count="3"/>
+      <line num="80" type="stmt" count="3"/>
+      <metrics loc="81" ncloc="79" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="55" coveredstatements="53" elements="55" coveredelements="53"/>
     </file>
     <file name="/home/dexter/php-project-48/src/Parser.php">
-      <line num="8" type="stmt" count="1"/>
-      <line num="9" type="stmt" count="1"/>
-      <metrics loc="12" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="2" coveredelements="2"/>
+      <line num="10" type="stmt" count="10"/>
+      <line num="11" type="stmt" count="10"/>
+      <line num="12" type="stmt" count="10"/>
+      <line num="13" type="stmt" count="10"/>
+      <line num="14" type="stmt" count="10"/>
+      <line num="15" type="stmt" count="10"/>
+      <line num="19" type="stmt" count="6"/>
+      <line num="20" type="stmt" count="6"/>
+      <line num="24" type="stmt" count="6"/>
+      <line num="25" type="stmt" count="6"/>
+      <metrics loc="26" ncloc="25" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="10" coveredelements="10"/>
     </file>
-    <file name="/home/dexter/php-project-48/src/Shaper.php">
-      <line num="9" type="stmt" count="1"/>
-      <line num="10" type="stmt" count="1"/>
-      <line num="12" type="stmt" count="1"/>
-      <line num="14" type="stmt" count="1"/>
-      <line num="16" type="stmt" count="1"/>
-      <line num="17" type="stmt" count="1"/>
-      <line num="18" type="stmt" count="1"/>
-      <line num="20" type="stmt" count="1"/>
-      <metrics loc="22" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="8" coveredelements="8"/>
-    </file>
-    <metrics files="3" loc="79" ncloc="62" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="29" elements="29" coveredelements="29"/>
+    <metrics files="6" loc="252" ncloc="243" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="148" coveredstatements="146" elements="148" coveredelements="146"/>
   </project>
 </coverage>

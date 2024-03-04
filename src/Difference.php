@@ -3,7 +3,7 @@
 namespace Difference\Difference;
 
 use function Difference\Parser\parse;
-use function Difference\Shaper\shape;
+use function Difference\Formatters\shape;
 
 // Интерфейс запуска расчета разницы
 function runDiff(string $filePathFirst, string $filePathSecond, string $format = 'stylish'): string
@@ -12,7 +12,6 @@ function runDiff(string $filePathFirst, string $filePathSecond, string $format =
     $fileContentSecond = parse($filePathSecond);
     $difference = getDifference($fileContentFirst, $fileContentSecond);
     return shape($difference, $format);
-
 }
 // Выполняет расчет разницы
 function getDifference(array $fileContentFirst, array $fileContentSecond): array

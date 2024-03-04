@@ -4,7 +4,10 @@
         "files": [
             "src/Difference.php",
             "src/Parser.php",
-            "src/Shaper.php"
+            "src/Formatters.php",
+            "src/Formatters/Stylish.php",
+            "src/Formatters/Plain.php",
+            "src/Formatters/JSON.php"
         ]
     },
     "autoload-dev": {
