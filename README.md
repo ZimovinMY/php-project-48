@@ -52,18 +52,3 @@ $ make lint
 <summary>2</summary>
 <a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
 </details>
-
-<details>
-<summary>3</summary>
-<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
-</details>
-
-<details>
-<summary>4</summary>
-<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
-</details>
-
-<details>
-<summary>5</summary>
-<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
-</details>
