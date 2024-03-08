@@ -27,7 +27,15 @@ $ git clone https://github.com/ZimovinMY/php-project-48.git
 $ cd php-project-48
 $ make install
 ```
-
+## Launch the utility
+### Usage:
+* gendiff (-h|--help)
+* gendiff (-v|--version)
+* gendiff [--format <fmt>] <firstFile> <secondFile>
+### Options:
+* -h --help                     Show this screen
+* -v --version                  Show version
+* --format <fmt>                Report format [default: stylish]
 ## Launch PHP_CodeSniffer and PHPStan
 
 ```sh
@@ -39,7 +47,23 @@ $ make lint
 <summary>1</summary>
 <a href="https://asciinema.org/a/ME0ZCvr7Publc5jMvL9tQ1BbP" target="_blank"><img src="https://asciinema.org/a/ME0ZCvr7Publc5jMvL9tQ1BbP.svg" /></a>
 </details>
+
 <details>
 <summary>2</summary>
+<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
+</details>
+
+<details>
+<summary>3</summary>
+<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
+</details>
+
+<details>
+<summary>4</summary>
+<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
+</details>
+
+<details>
+<summary>5</summary>
 <a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
 </details>
