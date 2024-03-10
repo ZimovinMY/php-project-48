@@ -1,6 +1,6 @@
 <?php
 
-namespace Difference\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
 use function Functional\flatten;
 
@@ -16,24 +16,21 @@ function iter(array $difference, string $path = ''): array
         $path .= $path ? '.' . $item['key'] : $item['key'];
         switch ($item['status']) {
             case 'node':
-                $output = iter($item['value'], $path);
-                break;
+                return iter($item['value'], $path);
             case 'added':
                 $stringValueAfter = getStringValue($item['value']);
-                $output = "Property '$path' was added with value: $stringValueAfter";
-                break;
+                return "Property '$path' was added with value: $stringValueAfter";
             case 'deleted':
-                $output = "Property '$path' was removed";
-                break;
-            //case 'unchanged':
-            //    break;
+                return "Property '$path' was removed";
+            case 'unchanged':
+                return '';
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore']);
                 $stringValueAfter = getStringValue($item['valueAfter']);
-                $output = "Property '$path' was updated. From $stringValueBefore to $stringValueAfter";
-                break;
+                return "Property '$path' was updated. From $stringValueBefore to $stringValueAfter";
+            default:
+                throw new \RuntimeException("Unknown type!");
         }
-        return $output;
     }, $difference);
 }
 function getStringValue(mixed $value): string

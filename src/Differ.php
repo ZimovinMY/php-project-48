@@ -1,9 +1,9 @@
 <?php
 
-namespace Difference\Difference;
+namespace Differ\Differ;
 
-use function Difference\Parser\parse;
-use function Difference\Formatters\shape;
+use function Differ\Parser\parse;
+use function Differ\Formatters\shape;
 
 // Интерфейс запуска расчета разницы
 function genDiff(string $filePathFirst, string $filePathSecond, string $format = 'stylish'): string
