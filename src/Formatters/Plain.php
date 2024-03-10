@@ -44,5 +44,8 @@ function getStringValue(mixed $value): string
     if (is_array($value)) {
         return '[complex value]';
     }
-    return "'$value'";
+    if (is_string($value)) {
+        return "'$value'";
+    }
+    return "$value";
 }
