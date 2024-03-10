@@ -9,7 +9,7 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-use function Difference\Difference\runDiff;
+use function Difference\Difference\genDiff;
 
 // справочная информация
 $doc = <<<DOC
@@ -32,5 +32,5 @@ $filePathFirst = $args['<firstFile>']; // путь к 1 файлу
 $filePathSecond = $args['<secondFile>']; // путь ко 2 файлу
 $format = $args['--format']; // формат
 
-$difference = runDiff($filePathFirst, $filePathSecond, $format);
+$difference = genDiff($filePathFirst, $filePathSecond, $format);
 print_r($difference . PHP_EOL);

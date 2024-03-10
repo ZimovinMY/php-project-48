@@ -6,7 +6,7 @@ use function Difference\Parser\parse;
 use function Difference\Formatters\shape;
 
 // Интерфейс запуска расчета разницы
-function runDiff(string $filePathFirst, string $filePathSecond, string $format = 'stylish'): string
+function genDiff(string $filePathFirst, string $filePathSecond, string $format = 'stylish'): string
 {
     $fileContentFirst = parse($filePathFirst);
     $fileContentSecond = parse($filePathSecond);

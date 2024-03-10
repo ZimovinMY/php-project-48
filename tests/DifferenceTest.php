@@ -5,7 +5,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-use function Difference\Difference\runDiff;
+use function Difference\Difference\genDiff;
 class DifferenceTest extends TestCase
 {
     private string $path = __DIR__ . "/fixtures/";
@@ -20,7 +20,7 @@ class DifferenceTest extends TestCase
     {
         $this->assertStringEqualsFile(
             $this->getFilePath($expected),
-            runDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond), $format)
+            genDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond), $format)
         );
     }
     public static function RunDifferenceProvider(): array
@@ -41,6 +41,6 @@ class DifferenceTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unknown extension!');
-        runDiff($this->getFilePath('file1.jsn'), $this->getFilePath('file2.jn'));
+        genDiff($this->getFilePath('file1.jsn'), $this->getFilePath('file2.jn'));
     }
 }
