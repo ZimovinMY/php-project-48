@@ -7,7 +7,8 @@ use Symfony\Component\Yaml\Yaml;
 // Обработка входных данных
 function parse(string $filePath): array
 {
-    return match (pathinfo($filePath)['extension']) {
+    $extension = pathinfo($filePath)['extension'] ?? null;
+    return match ($extension) {
         'json' => parseJSON($filePath),
         'yaml', 'yml' => parseYAML($filePath),
         default => throw new \RuntimeException('Unknown extension!')
