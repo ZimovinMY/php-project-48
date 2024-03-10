@@ -12,7 +12,7 @@ gd-json:
 	./bin/gendiff --format json ./tests/fixtures/file1.json ./tests/fixtures/file2.json
 lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin
-	composer exec --verbose phpstan -- --level=3 analyse src tests bin
+	composer exec --verbose phpstan -- --level=5 analyse src tests bin
 test:
 	composer exec --verbose phpunit tests
 test-coverage:

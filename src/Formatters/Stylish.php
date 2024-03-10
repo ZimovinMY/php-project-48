@@ -2,13 +2,13 @@
 
 namespace Difference\Formatters\Stylish;
 
-function getStylish(array $difference): string
+function render(array $difference): string
 {
-    $stylishDiff = getStylishDiff($difference);
+    $stylishDiff = iter($difference);
     $resultString = implode("\n", $stylishDiff);
     return "{\n$resultString\n}";
 }
-function getStylishDiff(array $difference, int $depth = 0): array
+function iter(array $difference, int $depth = 0): array
 {
     $spaces = str_repeat('    ', $depth);
     $nextDepth = $depth + 1;
@@ -17,7 +17,7 @@ function getStylishDiff(array $difference, int $depth = 0): array
         $output = '';
         switch ($item['status']) {
             case 'node':
-                $node = getStylishDiff($item['value'], $nextDepth);
+                $node = iter($item['value'], $nextDepth);
                 $stringNode = implode("\n", $node);
                 $output = "$spaces    {$item['key']}: {\n$stringNode\n$spaces    }";
                 break;
@@ -36,19 +36,9 @@ function getStylishDiff(array $difference, int $depth = 0): array
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
                 $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
-                ////
-                if (!$stringValueBefore) {
-                    $output =
-                        "$spaces  - {$item['key']}:$stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
-                    break;
-                }
-                if (!$stringValueAfter) {
-                    $output =
-                        "$spaces  - {$item['key']}: $stringValueBefore\n$spaces  + {$item['key']}:$stringValueAfter";
-                    break;
-                }
-                /////
-                $output = "$spaces  - {$item['key']}: $stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
+                $lines[] = "$spaces  - {$item['key']}: $stringValueBefore";
+                $lines[] = "$spaces  + {$item['key']}: $stringValueAfter";
+                $output = implode("\n", $lines);
                 break;
         }
         return $output;

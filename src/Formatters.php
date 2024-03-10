@@ -2,15 +2,17 @@
 
 namespace Difference\Formatters;
 
-use function Difference\Formatters\Stylish\getStylish;
-use function Difference\Formatters\Plain\getPlain;
-use function Difference\Formatters\JSON\getJSON;
+use RuntimeException;
+use Difference\Formatters\Stylish;
+use Difference\Formatters\Plain;
+use Difference\Formatters\JSON;
 
 function shape(array $difference, string $format): string
 {
     return match ($format) {
-        'stylish' => getStylish($difference),
-        'plain' => getPlain($difference),
-        'json' => getJSON($difference)
+        'stylish' => Stylish\render($difference),
+        'plain' => Plain\render($difference),
+        'json' => JSON\render($difference),
+        default => throw new RuntimeException('Unknown output format!')
     };
 }
