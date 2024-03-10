@@ -14,34 +14,29 @@ function iter(array $difference, int $depth = 0): array
     $nextDepth = $depth + 1;
 
     return array_map(function ($item) use ($spaces, $nextDepth) {
-        $output = '';
         switch ($item['status']) {
             case 'node':
                 $node = iter($item['value'], $nextDepth);
                 $stringNode = implode("\n", $node);
-                $output = "$spaces    {$item['key']}: {\n$stringNode\n$spaces    }";
-                break;
+                return "$spaces    {$item['key']}: {\n$stringNode\n$spaces    }";
             case 'added':
                 $stringValue = getStringValue($item['value'], $nextDepth);
-                $output = "$spaces  + {$item['key']}: $stringValue";
-                break;
+                return "$spaces  + {$item['key']}: $stringValue";
             case 'deleted':
                 $stringValue = getStringValue($item['value'], $nextDepth);
-                $output = "$spaces  - {$item['key']}: $stringValue";
-                break;
+                return "$spaces  - {$item['key']}: $stringValue";
             case 'unchanged':
                 $stringValue = getStringValue($item['value'], $nextDepth);
-                $output = "$spaces    {$item['key']}: $stringValue";
-                break;
+                return "$spaces    {$item['key']}: $stringValue";
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
                 $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
                 $lines[] = "$spaces  - {$item['key']}: $stringValueBefore";
                 $lines[] = "$spaces  + {$item['key']}: $stringValueAfter";
-                $output = implode("\n", $lines);
-                break;
+                return implode("\n", $lines);
+            default:
+                throw new \RuntimeException("Unknown type!");
         }
-        return $output;
     }, $difference);
 }
 function getStringValue(mixed $value, int $depth): string
