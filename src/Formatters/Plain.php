@@ -12,21 +12,22 @@ function render(array $difference): string
 function iter(array $difference, string $path = ''): array
 {
     return array_map(function ($item) use ($path) {
-        $path = $path ? $path . '.' . $item['key'] : $item['key'];
+        $fullPath = "$path{$item['key']}";
+        //$path .= $path ? '.' . $item['key'] : $item['key'];
         switch ($item['status']) {
             case 'node':
-                return iter($item['value'], $path);
+                return iter($item['value'], $fullPath . '.');
             case 'added':
                 $stringValueAfter = getStringValue($item['value']);
-                return "Property '$path' was added with value: $stringValueAfter";
+                return "Property '$fullPath' was added with value: $stringValueAfter";
             case 'deleted':
-                return "Property '$path' was removed";
+                return "Property '$fullPath' was removed";
             case 'unchanged':
                 return '';
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore']);
                 $stringValueAfter = getStringValue($item['valueAfter']);
-                return "Property '$path' was updated. From $stringValueBefore to $stringValueAfter";
+                return "Property '$fullPath' was updated. From $stringValueBefore to $stringValueAfter";
             default:
                 throw new \RuntimeException("Unknown type!");
         }
