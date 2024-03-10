@@ -1,8 +1,7 @@
 <?php
 
-namespace Difference\Parser;
+namespace Differ\Parser;
 
-use RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 // Обработка входных данных
@@ -12,7 +11,7 @@ function parse(string $filePath): array
     return match ($extension) {
         'json' => parseJSON($filePath),
         'yaml', 'yml' => parseYAML($filePath),
-        default => throw new RuntimeException('Unknown extension!')
+        default => throw new \RuntimeException('Unknown extension!')
     };
 }
 function parseJSON(string $filePath): array

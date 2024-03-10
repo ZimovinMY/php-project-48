@@ -5,8 +5,8 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-use function Difference\Difference\genDiff;
-class DifferenceTest extends TestCase
+use function Differ\Differ\genDiff;
+class DifferTest extends TestCase
 {
     private string $path = __DIR__ . "/fixtures/";
     private function getFilePath($name): string
@@ -14,16 +14,16 @@ class DifferenceTest extends TestCase
         return $this->path . $name;
     }
     /**
-     * @dataProvider RunDifferenceProvider
+     * @dataProvider RunDifferProvider
      */
-    public function testRunDifference($pathFirst, $pathSecond, $format, $expected): void
+    public function testRunDiffer($pathFirst, $pathSecond, $format, $expected): void
     {
         $this->assertStringEqualsFile(
             $this->getFilePath($expected),
             genDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond), $format)
         );
     }
-    public static function RunDifferenceProvider(): array
+    public static function RunDifferProvider(): array
     {
         return [
             ['file1.json', 'file2.json', 'stylish', 'StylishFormat-expected.txt'],
