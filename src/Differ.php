@@ -2,6 +2,7 @@
 
 namespace Differ\Differ;
 
+use function Functional\sort;
 use function Differ\Parser\parse;
 use function Differ\Formatters\shape;
 
@@ -56,7 +57,7 @@ function getDifference(array $fileContentFirst, array $fileContentSecond): array
 }
 
 // Создает отсортированный массив уникальных ключей двух массивов
-function getSortedUnionKeys(array $firstArray, $secondArray): array
+function getSortedUnionKeys(array $firstArray, array $secondArray): array
 {
     // Получем уникальные ключи двух массивов
     $mergedKeys = array_unique(
@@ -66,6 +67,5 @@ function getSortedUnionKeys(array $firstArray, $secondArray): array
         )
     );
     // Сортировка ключей
-    sort($mergedKeys);
-    return $mergedKeys;
+    return sort($mergedKeys, fn ($left, $right) => strcmp($left, $right));
 }

@@ -2,6 +2,7 @@
 
 namespace Differ\Parser;
 
+use _PHPStan_156ee64ba\Symfony\Component\String\Exception\RuntimeException;
 use Symfony\Component\Yaml\Yaml;
 
 // Обработка входных данных
@@ -21,6 +22,7 @@ function parseJSON(string $filePath): array
 }
 function parseYAML(string $filePath): array
 {
-    $fileContent = file_get_contents($filePath);
-    return Yaml::parse($fileContent);
+    $fileContent = file_get_contents($filePath) ?? null;
+    return $fileContent ? Yaml::parse($fileContent) : throw new RuntimeException('Reads file error!');
+    ///return Yaml::parse($fileContent);
 }

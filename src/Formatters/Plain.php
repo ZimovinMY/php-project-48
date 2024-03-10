@@ -12,7 +12,6 @@ function render(array $difference): string
 function iter(array $difference, string $path = ''): array
 {
     return array_map(function ($item) use ($path) {
-        $output = '';
         $path .= $path ? '.' . $item['key'] : $item['key'];
         switch ($item['status']) {
             case 'node':
