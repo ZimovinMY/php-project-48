@@ -44,11 +44,26 @@ $ make lint
 
 ## Asciinema recordings
 <details>
-<summary>1</summary>
-<a href="https://asciinema.org/a/ME0ZCvr7Publc5jMvL9tQ1BbP" target="_blank"><img src="https://asciinema.org/a/ME0ZCvr7Publc5jMvL9tQ1BbP.svg" /></a>
+<summary>Setup</summary>
+<a href="https://asciinema.org/a/3Owq6TqzSSBDXtdFFAWCcYfEu" target="_blank"><img src="https://asciinema.org/a/3Owq6TqzSSBDXtdFFAWCcYfEu.svg" /></a>
 </details>
 
 <details>
-<summary>2</summary>
-<a href="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa" target="_blank"><img src="https://asciinema.org/a/tp1OY2MfZUGWcsbYJekeQmysa.svg" /></a>
+<summary>Displaying help</summary>
+<a href="https://asciinema.org/a/UTTFhBTIO66EF8FelpRLr2OFm" target="_blank"><img src="https://asciinema.org/a/UTTFhBTIO66EF8FelpRLr2OFm.svg" /></a>
+</details>
+
+<details>
+<summary>Report output format "stylish" (default)</summary>
+<a href="https://asciinema.org/a/jJnJ5IvhHxuDutM38Rr7u0mBq" target="_blank"><img src="https://asciinema.org/a/jJnJ5IvhHxuDutM38Rr7u0mBq.svg" /></a>
+</details>
+
+<details>
+<summary>Report output format "plain"</summary>
+<a href="https://asciinema.org/a/fRuPlGFID0VsuOPSxA4uqgB3x" target="_blank"><img src="https://asciinema.org/a/fRuPlGFID0VsuOPSxA4uqgB3x.svg" /></a>
+</details>
+
+<details>
+<summary>Report output format "json"</summary>
+<a href="https://asciinema.org/a/JiFRJmpzlauQ9y8ujdtFxVB5k" target="_blank"><img src="https://asciinema.org/a/JiFRJmpzlauQ9y8ujdtFxVB5k.svg" /></a>
 </details>
