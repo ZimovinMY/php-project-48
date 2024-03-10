@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
 use function Differ\Differ\genDiff;
+
 class DifferTest extends TestCase
 {
     private string $path = __DIR__ . "/fixtures/";
@@ -14,7 +15,7 @@ class DifferTest extends TestCase
         return $this->path . $name;
     }
     /**
-     * @dataProvider RunDifferProvider
+     * @dataProvider runDifferProvider
      */
     public function testRunDiffer($pathFirst, $pathSecond, $format, $expected): void
     {
@@ -23,7 +24,7 @@ class DifferTest extends TestCase
             genDiff($this->getFilePath($pathFirst), $this->getFilePath($pathSecond), $format)
         );
     }
-    public static function RunDifferProvider(): array
+    public static function runDifferProvider(): array
     {
         return [
             ['file1.json', 'file2.json', 'stylish', 'StylishFormat-expected.txt'],
