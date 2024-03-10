@@ -31,9 +31,7 @@ function iter(array $difference, int $depth = 0): array
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
                 $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
-                $lines[] = "$spaces  - {$item['key']}: $stringValueBefore";
-                $lines[] = "$spaces  + {$item['key']}: $stringValueAfter";
-                return implode("\n", $lines);
+                return "$spaces  - {$item['key']}: $stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
             default:
                 throw new \RuntimeException("Unknown type!");
         }
