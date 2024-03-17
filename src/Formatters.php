@@ -8,6 +8,6 @@ function shape(array $difference, string $format): string
         'stylish' => Stylish\render($difference),
         'plain' => Plain\render($difference),
         'json' => JSON\render($difference),
-        default => throw new \RuntimeException('Unknown output format!')
+        default => throw new \RuntimeException("Unknown output format: $format")
     };
 }

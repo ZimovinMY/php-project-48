@@ -6,7 +6,8 @@ use function Functional\flatten;
 
 function render(array $difference): string
 {
-    $plainDiff = array_filter(flatten(iter($difference)));
+    $bodyDifference = $difference['value'];
+    $plainDiff = array_filter(flatten(iter($bodyDifference)));
     return implode("\n", $plainDiff);
 }
 function iter(array $difference, string $path = ''): array
@@ -18,15 +19,15 @@ function iter(array $difference, string $path = ''): array
                 return iter($item['value'], $fullPath . '.');
             case 'added':
                 $stringValueAfter = getStringValue($item['value']);
-                return "Property '$fullPath' was added with value: $stringValueAfter";
+                return sprintf("Property '%s' was added with value: %s", $fullPath, $stringValueAfter);
             case 'deleted':
-                return "Property '$fullPath' was removed";
+                return sprintf("Property '%s' was removed", $fullPath);
             case 'unchanged':
                 return '';
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore']);
                 $stringValueAfter = getStringValue($item['valueAfter']);
-                return "Property '$fullPath' was updated. From $stringValueBefore to $stringValueAfter";
+                return sprintf("Property '%s' was updated. From %s to %s", $fullPath, $stringValueBefore, $stringValueAfter);
             default:
                 throw new \RuntimeException("Unknown type!");
         }
@@ -40,7 +41,7 @@ function getStringValue(mixed $value): string
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
     }
-    if (is_array($value)) {
+    if (is_array($value) || is_object($value)) {
         return '[complex value]';
     }
     if (is_string($value)) {

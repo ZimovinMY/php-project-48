@@ -4,7 +4,10 @@ namespace Differ\Formatters\Stylish;
 
 function render(array $difference): string
 {
-    $stylishDiff = iter($difference);
+    $bodyDifference = $difference['value'];
+    print_r($bodyDifference);
+    print_r($difference);
+    $stylishDiff = iter($bodyDifference);
     $resultString = implode("\n", $stylishDiff);
     return "{\n$resultString\n}";
 }
@@ -14,24 +17,29 @@ function iter(array $difference, int $depth = 0): array
     $nextDepth = $depth + 1;
 
     return array_map(function ($item) use ($spaces, $nextDepth) {
+        print_r("FFFFF\n");
+        print_r($item);
+        print_r("FFFFF\n");
         switch ($item['status']) {
+            case 'root':
+                return iter($item['value']);
             case 'node':
                 $node = iter($item['value'], $nextDepth);
                 $stringNode = implode("\n", $node);
-                return "$spaces    {$item['key']}: {\n$stringNode\n$spaces    }";
+                return sprintf("%s    %s: {\n%s\n%s    }", $spaces, $item['key'], $stringNode, $spaces);
             case 'added':
                 $stringValue = getStringValue($item['value'], $nextDepth);
-                return "$spaces  + {$item['key']}: $stringValue";
+                return sprintf("%s  + %s: %s", $spaces, $item['key'], $stringValue);
             case 'deleted':
                 $stringValue = getStringValue($item['value'], $nextDepth);
-                return "$spaces  - {$item['key']}: $stringValue";
+                return sprintf("%s  - %s: %s", $spaces, $item['key'], $stringValue);
             case 'unchanged':
                 $stringValue = getStringValue($item['value'], $nextDepth);
-                return "$spaces    {$item['key']}: $stringValue";
+                return sprintf("%s    %s: %s", $spaces, $item['key'], $stringValue);
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
                 $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
-                return "$spaces  - {$item['key']}: $stringValueBefore\n$spaces  + {$item['key']}: $stringValueAfter";
+                return sprintf("%s  - %s: %s\n%s  + %s: %s", $spaces, $item['key'], $stringValueBefore, $spaces, $item['key'], $stringValueAfter);
             default:
                 throw new \RuntimeException("Unknown type!");
         }

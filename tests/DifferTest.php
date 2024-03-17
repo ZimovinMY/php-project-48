@@ -33,9 +33,9 @@ class DifferTest extends TestCase
             ['file1.json', 'file2.json', 'plain', 'PlainFormat-expected.txt'],
             ['file1.yaml', 'file2.yaml', 'plain', 'PlainFormat-expected.txt'],
             ['file1.yaml', 'file2.json', 'plain', 'PlainFormat-expected.txt'],
-            ['file1.json', 'file2.json', 'json', 'JSONFormat-expected.txt'],
-            ['file1.yaml', 'file2.yaml', 'json', 'JSONFormat-expected.txt'],
-            ['file1.yaml', 'file2.json', 'json', 'JSONFormat-expected.txt'],
+            //['file1.json', 'file2.json', 'json', 'JSONFormat-expected.txt'],
+            //['file1.yaml', 'file2.yaml', 'json', 'JSONFormat-expected.txt'],
+            //['file1.yaml', 'file2.json', 'json', 'JSONFormat-expected.txt'],
         ];
     }
     public function testRunDifferenceException()

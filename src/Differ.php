@@ -14,8 +14,17 @@ function genDiff(string $filePathFirst, string $filePathSecond, string $format =
     $difference = getDifference($fileContentFirst, $fileContentSecond);
     return shape($difference, $format);
 }
-// Выполняет расчет разницы
+
 function getDifference(array $fileContentFirst, array $fileContentSecond): array
+{
+    return [
+        'status' => 'root',
+        'value' => getBodyDifference($fileContentFirst, $fileContentSecond)
+    ];
+}
+
+// Выполняет расчет разницы
+function getBodyDifference(array $fileContentFirst, array $fileContentSecond): array
 {
     $sortedUnionKeys = getSortedUnionKeys($fileContentFirst, $fileContentSecond);
     return array_map(function ($key) use ($fileContentFirst, $fileContentSecond) {
@@ -37,7 +46,7 @@ function getDifference(array $fileContentFirst, array $fileContentSecond): array
             return [
                 'status' => 'node',
                 'key' => $key,
-                'value' => getDifference($fileContentFirst[$key], $fileContentSecond[$key])
+                'value' => getBodyDifference($fileContentFirst[$key], $fileContentSecond[$key])
             ];
         }
         if ($fileContentFirst[$key] === $fileContentSecond[$key]) {
