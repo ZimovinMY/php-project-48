@@ -4,52 +4,42 @@ namespace Differ\Formatters\Stylish;
 
 function render(array $difference): string
 {
-    $stylishDiff = getStylishDiff($difference);
-    $resultString = implode("\n", $stylishDiff);
-    return "{\n$resultString\n}";
+    return iter($difference);
 }
-
-function getStylishDiff(array $difference): array
-{
-    $bodyDifference = $difference['value'];
-    return iter($bodyDifference);
-}
-function iter(array $difference, int $depth = 0): array
+function iter(array $difference, int $depth = 0): string
 {
     $spaces = str_repeat('    ', $depth);
     $nextDepth = $depth + 1;
-
-    return array_map(function ($item) use ($spaces, $nextDepth) {
-        switch ($item['status']) {
-            case 'node':
-                $node = iter($item['value'], $nextDepth);
-                $stringNode = implode("\n", $node);
-                return sprintf("%s    %s: {\n%s\n%s    }", $spaces, $item['key'], $stringNode, $spaces);
-            case 'added':
-                $stringValue = getStringValue($item['value'], $nextDepth);
-                return sprintf("%s  + %s: %s", $spaces, $item['key'], $stringValue);
-            case 'deleted':
-                $stringValue = getStringValue($item['value'], $nextDepth);
-                return sprintf("%s  - %s: %s", $spaces, $item['key'], $stringValue);
-            case 'unchanged':
-                $stringValue = getStringValue($item['value'], $nextDepth);
-                return sprintf("%s    %s: %s", $spaces, $item['key'], $stringValue);
-            case 'changed':
-                $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
-                $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
-                return sprintf(
-                    "%s  - %s: %s\n%s  + %s: %s",
-                    $spaces,
-                    $item['key'],
-                    $stringValueBefore,
-                    $spaces,
-                    $item['key'],
-                    $stringValueAfter
-                );
-            default:
-                throw new \RuntimeException("Unknown type!");
-        }
-    }, $difference);
+    switch ($difference['status']) {
+        case 'root':
+            $lines = array_map(function ($node) use ($depth) {
+                return iter($node, $depth);
+            }, $difference['value']);
+            $output = ['{', ...$lines, '}'];
+            return implode("\n", $output);
+        case 'node':
+            $lines = array_map(function ($node) use ($nextDepth) {
+                return iter($node, $nextDepth);
+            }, $difference['value']);
+            $output = ["$spaces    {$difference['key']}: {", ...$lines, "$spaces    }"];
+            return implode("\n", $output);
+        case 'added':
+            $stringValue = getStringValue($difference['value'], $nextDepth);
+            return sprintf("%s  + %s: %s", $spaces, $difference['key'], $stringValue);
+        case 'deleted':
+            $stringValue = getStringValue($difference['value'], $nextDepth);
+            return sprintf("%s  - %s: %s", $spaces, $difference['key'], $stringValue);
+        case 'unchanged':
+            $stringValue = getStringValue($difference['value'], $nextDepth);
+            return sprintf("%s    %s: %s", $spaces, $difference['key'], $stringValue);
+        case 'changed':
+            $stringValueBefore = getStringValue($difference['valueBefore'], $nextDepth);
+            $stringValueAfter = getStringValue($difference['valueAfter'], $nextDepth);
+            $output = ["$spaces  - {$difference['key']}: $stringValueBefore", "$spaces  + {$difference['key']}: $stringValueAfter"];
+            return implode("\n", $output);
+        default:
+            throw new \RuntimeException("Unknown type!");
+    }
 }
 function getStringValue(mixed $value, int $depth): string
 {
