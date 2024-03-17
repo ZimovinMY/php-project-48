@@ -22,10 +22,10 @@ function parse(string $filePath): array
 function parseJSON(string $filePath): array
 {
     $fileContent = file_get_contents($filePath);
-    return json_decode($fileContent, true);
+    return (array) json_decode($fileContent, true);
 }
 function parseYAML(string $filePath): array
 {
     $fileContent = file_get_contents($filePath);
-    return Yaml::parse($fileContent);
+    return (array) Yaml::parse($fileContent);
 }
