@@ -4,12 +4,15 @@ namespace Differ\Formatters\Stylish;
 
 function render(array $difference): string
 {
-    $bodyDifference = $difference['value'];
-    print_r($bodyDifference);
-    print_r($difference);
-    $stylishDiff = iter($bodyDifference);
+    $stylishDiff = getStylishDiff($difference);
     $resultString = implode("\n", $stylishDiff);
     return "{\n$resultString\n}";
+}
+
+function getStylishDiff(array $difference): array
+{
+    $bodyDifference = $difference['value'];
+    return iter($bodyDifference);
 }
 function iter(array $difference, int $depth = 0): array
 {
@@ -17,12 +20,7 @@ function iter(array $difference, int $depth = 0): array
     $nextDepth = $depth + 1;
 
     return array_map(function ($item) use ($spaces, $nextDepth) {
-        print_r("FFFFF\n");
-        print_r($item);
-        print_r("FFFFF\n");
         switch ($item['status']) {
-            case 'root':
-                return iter($item['value']);
             case 'node':
                 $node = iter($item['value'], $nextDepth);
                 $stringNode = implode("\n", $node);
@@ -39,7 +37,15 @@ function iter(array $difference, int $depth = 0): array
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore'], $nextDepth);
                 $stringValueAfter = getStringValue($item['valueAfter'], $nextDepth);
-                return sprintf("%s  - %s: %s\n%s  + %s: %s", $spaces, $item['key'], $stringValueBefore, $spaces, $item['key'], $stringValueAfter);
+                return sprintf(
+                    "%s  - %s: %s\n%s  + %s: %s",
+                    $spaces,
+                    $item['key'],
+                    $stringValueBefore,
+                    $spaces,
+                    $item['key'],
+                    $stringValueAfter
+                );
             default:
                 throw new \RuntimeException("Unknown type!");
         }

@@ -38,10 +38,16 @@ class DifferTest extends TestCase
             //['file1.yaml', 'file2.json', 'json', 'JSONFormat-expected.txt'],
         ];
     }
-    public function testRunDifferenceException()
+    public function testRunDifferenceExceptionUnknownExtension()
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unknown extension!');
-        genDiff($this->getFilePath('file1.jsn'), $this->getFilePath('file2.jn'));
+        $this->expectExceptionMessage("Unknown extension: xml");
+        genDiff($this->getFilePath('file1.xml'), $this->getFilePath('file2.json'));
+    }
+    public function testRunDifferenceExceptionErrorReadingFile()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("Error reading file: file1.jsn");
+        genDiff($this->getFilePath('file1.jsn'), $this->getFilePath('file2.json'));
     }
 }

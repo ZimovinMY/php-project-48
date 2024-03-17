@@ -8,23 +8,24 @@ use Symfony\Component\Yaml\Yaml;
 function parse(string $filePath): array
 {
     $extension = pathinfo($filePath)['extension'] ?? null;
-    return match ($extension) {
-        'json' => parseJSON($filePath),
-        'yaml', 'yml' => parseYAML($filePath),
-        default => throw new \RuntimeException('Unknown extension!')
-    };
+    $basename = pathinfo($filePath)['basename'];
+    if (is_readable($filePath)) {
+        return match ($extension) {
+            'json' => parseJSON($filePath),
+            'yaml', 'yml' => parseYAML($filePath),
+            default => throw new \RuntimeException("Unknown extension: $extension")
+        };
+    } else {
+        throw new \RuntimeException("Error reading file: $basename");
+    }
 }
 function parseJSON(string $filePath): array
 {
     $fileContent = file_get_contents($filePath);
-    return $fileContent !== false
-        ? json_decode($fileContent, true)
-        : throw new \RuntimeException('File reading error!');
+    return json_decode($fileContent, true);
 }
 function parseYAML(string $filePath): array
 {
     $fileContent = file_get_contents($filePath);
-    return $fileContent !== false
-        ? Yaml::parse($fileContent)
-        : throw new \RuntimeException('File reading error!');
+    return Yaml::parse($fileContent);
 }

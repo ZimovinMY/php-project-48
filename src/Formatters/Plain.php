@@ -6,9 +6,15 @@ use function Functional\flatten;
 
 function render(array $difference): string
 {
-    $bodyDifference = $difference['value'];
-    $plainDiff = array_filter(flatten(iter($bodyDifference)));
+    $plainDiff = getPlainDiff($difference);
     return implode("\n", $plainDiff);
+}
+
+function getPlainDiff(array $difference): array
+{
+    $bodyDifference = $difference['value'];
+    $plainDiff = iter($bodyDifference);
+    return array_filter(flatten($plainDiff));
 }
 function iter(array $difference, string $path = ''): array
 {
@@ -27,7 +33,12 @@ function iter(array $difference, string $path = ''): array
             case 'changed':
                 $stringValueBefore = getStringValue($item['valueBefore']);
                 $stringValueAfter = getStringValue($item['valueAfter']);
-                return sprintf("Property '%s' was updated. From %s to %s", $fullPath, $stringValueBefore, $stringValueAfter);
+                return sprintf(
+                    "Property '%s' was updated. From %s to %s",
+                    $fullPath,
+                    $stringValueBefore,
+                    $stringValueAfter
+                );
             default:
                 throw new \RuntimeException("Unknown type!");
         }
