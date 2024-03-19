@@ -21,11 +21,15 @@ function parse(string $filePath): array
 }
 function parseJSON(string $filePath): array
 {
-    $fileContent = file_get_contents($filePath) ?? [];
-    return json_decode($fileContent, true);
+    $fileContent = file_get_contents($filePath);
+    return $fileContent !== false
+        ? json_decode($fileContent, true)
+        : [];
 }
 function parseYAML(string $filePath): array
 {
-    $fileContent = file_get_contents($filePath) ?? [];
-    return Yaml::parse($fileContent);
+    $fileContent = file_get_contents($filePath);
+    return $fileContent !== false
+        ? Yaml::parse($fileContent)
+        : [];
 }
