@@ -8,7 +8,7 @@ function render(array $difference): string
 {
     return iter($difference);
 }
-function iter(array $difference, array $path = [], array $lines = []): string
+function iter(array $difference, array $path = []): string
 {
     $key = $difference['key'] ?? null;
     $currentPath = $key !== null ? array_merge($path, [$key]) : $path;
@@ -17,8 +17,8 @@ function iter(array $difference, array $path = [], array $lines = []): string
     switch ($difference['status']) {
         case 'root':
         case 'node':
-            $lines = array_map(function ($item) use ($currentPath, $lines) {
-                return iter($item, $currentPath, $lines);
+            $lines = array_map(function ($item) use ($currentPath) {
+                return iter($item, $currentPath);
             }, $difference['value']);
             return implode("\n", array_filter($lines));
         case 'added':
