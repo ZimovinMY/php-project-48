@@ -8,7 +8,7 @@ function render(array $difference): string
 }
 function iter(array $difference, int $depth = 0): string
 {
-    $spaces = str_repeat('    ', $depth);
+    $spaces = makeSpace($depth);
     $nextDepth = $depth + 1;
     switch ($difference['status']) {
         case 'root':
@@ -46,27 +46,31 @@ function iter(array $difference, int $depth = 0): string
 }
 function getStringValue(mixed $value, int $depth): string
 {
-    if (is_null($value)) {
-        return 'null';
-    }
-    if (is_bool($value)) {
-        return $value ? 'true' : 'false';
-    }
-    if (is_array($value)) {
-        $result = convertArrayToString($value, $depth);
-        $spaces = str_repeat('    ', $depth);
-        return "{{$result}\n$spaces}";
-    }
-    return "$value";
+    return match (gettype($value)) {
+        'NULL' => 'null',
+        'boolean' => $value ? 'true' : 'false',
+        'array' => convertArrayToString($value, $depth),
+        default => "$value"
+    };
 }
-function convertArrayToString(array $value, int $depth): string
+function convertArrayToString(mixed $value, int $depth): string
 {
     $keys = array_keys($value);
     $nextDepth = $depth + 1;
 
-    return implode('', array_map(function ($key) use ($value, $nextDepth) {
+    $lines = array_map(function ($key) use ($value, $nextDepth) {
         $newValue = getStringValue($value[$key], $nextDepth);
-        $spaces = str_repeat('    ', $nextDepth);
-        return "\n$spaces$key: $newValue";
-    }, $keys));
+        $spaces = makeSpace($nextDepth);
+        return "$spaces$key: $newValue";
+    }, $keys);
+    $spaces = makeSpace($depth);
+
+    $result = ['{', ...$lines, "$spaces}"];
+    return implode("\n", $result);
+}
+function makeSpace(int $depth): string
+{
+    $idents = 4; // кол-во отступов
+    $shift = 0; // сдвиг
+    return str_repeat(' ', $depth * $idents - $shift);
 }

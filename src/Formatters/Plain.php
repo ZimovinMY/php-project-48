@@ -6,57 +6,48 @@ use function Functional\flatten;
 
 function render(array $difference): string
 {
-    $plainDiff = getPlainDiff($difference);
-    return implode("\n", $plainDiff);
+    return iter($difference);
 }
+function iter(array $difference, array $path = [], array $lines = []): string
+{
+    $key = $difference['key'] ?? null;
+    $currentPath = $key !== null ? array_merge($path, [$key]) : $path;
+    $stringPath = implode(".", $currentPath);
 
-function getPlainDiff(array $difference): array
-{
-    $bodyDifference = $difference['value'];
-    $plainDiff = iter($bodyDifference);
-    return array_filter(flatten($plainDiff));
-}
-function iter(array $difference, string $path = ''): array
-{
-    return array_map(function ($item) use ($path) {
-        $fullPath = "$path{$item['key']}";
-        switch ($item['status']) {
-            case 'node':
-                return iter($item['value'], $fullPath . '.');
-            case 'added':
-                $stringValueAfter = getStringValue($item['value']);
-                return sprintf("Property '%s' was added with value: %s", $fullPath, $stringValueAfter);
-            case 'deleted':
-                return sprintf("Property '%s' was removed", $fullPath);
-            case 'unchanged':
-                return '';
-            case 'changed':
-                $stringValueBefore = getStringValue($item['valueBefore']);
-                $stringValueAfter = getStringValue($item['valueAfter']);
-                return sprintf(
-                    "Property '%s' was updated. From %s to %s",
-                    $fullPath,
-                    $stringValueBefore,
-                    $stringValueAfter
-                );
-            default:
-                throw new \RuntimeException("Unknown type!");
-        }
-    }, $difference);
+    switch ($difference['status']) {
+        case 'root':
+        case 'node':
+            $lines = array_map(function ($item) use ($currentPath, $lines) {
+                return iter($item, $currentPath, $lines);
+            }, $difference['value']);
+            return implode("\n", array_filter($lines));
+        case 'added':
+            $stringValueAfter = getStringValue($difference['value']);
+            return sprintf("Property '%s' was added with value: %s", $stringPath, $stringValueAfter);
+        case 'deleted':
+            return sprintf("Property '%s' was removed", $stringPath);
+        case 'unchanged':
+            return '';
+        case 'changed':
+            $stringValueBefore = getStringValue($difference['valueBefore']);
+            $stringValueAfter = getStringValue($difference['valueAfter']);
+            return sprintf(
+                "Property '%s' was updated. From %s to %s",
+                $stringPath,
+                $stringValueBefore,
+                $stringValueAfter
+            );
+        default:
+            throw new \RuntimeException("Unknown type!");
+    }
 }
 function getStringValue(mixed $value): string
 {
-    if (is_null($value)) {
-        return 'null';
-    }
-    if (is_bool($value)) {
-        return $value ? 'true' : 'false';
-    }
-    if (is_array($value) || is_object($value)) {
-        return '[complex value]';
-    }
-    if (is_string($value)) {
-        return "'$value'";
-    }
-    return "$value";
+    return match (gettype($value)) {
+        'NULL' => 'null',
+        'boolean' => $value ? 'true' : 'false',
+        'array', 'object' => '[complex value]',
+        'string' => "'$value'",
+        default => "$value"
+    };
 }
